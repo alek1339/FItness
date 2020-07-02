@@ -46,7 +46,6 @@ class App extends Component  {
       <Provider store={store}>
           <Router>
             <div className="App">
-              Hello
                 <header className="App-header">
                   <nav>
                     <MyNavbar />
