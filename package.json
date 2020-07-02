@@ -1,0 +1,39 @@
+{
+  "name": "peex_reactprofile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "concurrently": "^5.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.17",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "request": "^2.88.2",
+    "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alek1339/PEEX_ReactProfile.git"
+  },
+  "author": "Aleks Mihaylov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alek1339/PEEX_ReactProfile/issues"
+  },
+  "homepage": "https://github.com/alek1339/PEEX_ReactProfile#readme"
+}
