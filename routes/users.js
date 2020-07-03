@@ -17,7 +17,17 @@ const User = require('../models/User')
 // @route  GET api/posts/test
 // @desc Tests users route
 // @access Public
-router.get('/test', (req, res) => res.json({ msg: 'Users Works' }))
+router.get('/test', (req, res) => {
+  User.find({}, function(err, users) {
+    var userMap = {};
+
+    users.forEach(function(user) {
+      userMap[user._id] = user;
+    });
+
+    res.send(userMap);  
+  });
+})
 
 // @route  GET api/posts/register
 // @desc Register user
