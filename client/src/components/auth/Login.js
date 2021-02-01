@@ -1,87 +1,51 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { loginUser } from '../../actions/authActions'
+import React , { useState }  from 'react';
+import { loginUser } from '../../actions/authActions';
 
-class Login extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      email: '',
-      password: '',
-      errors: {}
+import { useSelector, useDispatch } from 'react-redux';
+
+const Login = (props)=> {
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const emailError = useSelector((state) => state.errors.email);
+    const passwordError = useSelector((state) => state.errors.password);
+
+    let [email, setEmail] = useState('');
+    const handleEmailChange = event => {
+        setEmail(event.target.value);
+    };
+
+    let [password, setPassword] = useState('');
+    const handlePasswordChange = event => {
+        setPassword(event.target.value);
+    };
+  
+    const onSubmit = (e) => {
+        e.preventDefault()
+    
+        const userData = {
+          email: email,
+          password: password
+        }
+        
+        dispatch(loginUser(userData))
+      }
+    
+    if (isAuthenticated) {
+        window.location.href = "/";
     }
 
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onChange = this.onChange.bind(this)
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/')
-    }
-
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors })
-    }
-  }
-
-  componentDidMount () {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/')
-    }
-  }
-
-  onChange (e) {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
-  onSubmit (e) {
-    e.preventDefault()
-
-    const userData = {
-      email: this.state.email,
-      password: this.state.password
-    }
-
-    this.props.loginUser(userData)
-  }
-
-  render () {
-    const { errors } = this.state
-    return (
-      <div className='container'>
-          <h1>Login</h1>
-        <form onSubmit={this.onSubmit}>
-          <div className='form-group'>
-            <input className='form-control'
-              type='text'
-              name='email'
-              placeholder='email'
-              onChange={this.onChange}
-              aria-describedby='emailHelp'
-            />
-            <span>{errors.email}</span>
-            <input className='form-control' type='password' name='password' placeholder='password' onChange={this.onChange} />
-            <span>{errors.password}</span>
-            <input type='submit' id='btnLogin' className='btn btn-primary' />
-          </div>
-
-        </form>
-      </div>
+    return(
+        <div>
+            <h1>Login</h1>
+            <form onSubmit={onSubmit}>
+               <input type='text' name='email' placeholder='email' onChange={handleEmailChange } />
+               <span>{emailError}</span>
+               <input  type='password' name='password' placeholder='password' onChange={handlePasswordChange } />
+               <span>{passwordError}</span>
+               <input type='submit' id='btnLogin' className='btn btn-primary' />
+            </form>
+        </div>
     )
-  }
-}
+};
 
-const mapStateToProps = state => ({
-  email: state.auth.email,
-  auth: state.auth,
-  errors: state.errors
-})
-
-function mapDispatchToProps (dispatch) {
-  return {
-    loginUser: (userData) => dispatch(loginUser(userData))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default Login;
