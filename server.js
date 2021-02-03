@@ -1,16 +1,17 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
-const users = require('./routes/users')
+const users = require('./routes/users');
+const articles = require('./routes/articles');
 
-const app = express()
+const app = express();
 
 // Bodyparser Middleware
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 // DB Config 
-const db = require('./config/keys').mongoURI
+const db = require('./config/keys').mongoURI;
 
 // Connect to Mongo
 
@@ -20,9 +21,9 @@ mongoose
     .catch(err => console.log("ERROR: ", err))
 
 // Use Routes
-app.use('/users', users)
+app.use('/users', users);
+app.use('/articles', articles);
 
+const port = process.env.PORT || 5000;
 
-const port = process.env.PORT || 5000
-
-app.listen(port, () => console.log(`Server running on port ${port}`))
+app.listen(port, () => console.log(`Server running on port ${port}`));

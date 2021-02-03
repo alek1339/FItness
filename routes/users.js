@@ -1,18 +1,18 @@
-const express = require('express')
-const router = express.Router()
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const keys = require('../config/keys')
-const passport = require('passport')
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const keys = require('../config/keys');
+const passport = require('passport');
 
-require('../config/passport')(passport)
+require('../config/passport')(passport);
 
 // Load Input Validation
-const validateRegisterInput = require('../validation/register')
-const validateLoginInput = require('../validation/login')
+const validateRegisterInput = require('../validation/register');
+const validateLoginInput = require('../validation/login');
 
 // Load User model
-const User = require('../models/User')
+const User = require('../models/User');
 
 // @route  GET api/posts/test
 // @desc Tests users route
