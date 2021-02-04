@@ -3,14 +3,30 @@ const router = express.Router();
 
 const Article = require('../models/Article.js');
 
+// @route  GET api/articles/test
+// @desc Tests articles route
+// @access Public
+router.get('/test', (req, res) => {
+  Article.find({}, function(err, articles) {
+    var userMap = {};
+
+    articles.forEach(function(article) {
+      articleMap[article._id] = article;
+    });
+
+    res.send(articleMap);  
+  });
+})
+
 // @route  POST api/articles/test
-// @desc Tests users route
+// @desc Tests articles route
 // @access Public
 router.post('/add', (req, res) => {
-    console.log('here')
     Article.findOne({ id: req.body.id }).then(article => {
+        const errors = {};
       if (article) {
-        errors.email = 'Article with this id already exists !'
+        errors.id = 'Article with this id already exists !';
+        console.log(errors)
         return res.status(400).json(errors)
       } else {
         const newArticle = new Article({
