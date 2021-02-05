@@ -14,8 +14,8 @@ import MyNavbar from './components/Navbar';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import Register from './components/auth/Register';
-import RegisterNew from './components/auth/RegisterNew';
 import Login from './components/auth/Login';
+import AdminPage from './admin/AdminPage.js'
 
 import { Provider } from 'react-redux';
 
@@ -55,7 +55,8 @@ class App extends Component  {
                   <div className='main-content'>
                     <Route exact path='/' component={Home} />
                     <Route exact path='/login' component={Login} />
-                    <Route exact path='/register' component={RegisterNew} />
+                    <Route exact path='/register' component={Register} />
+                    <Route exact path='/admin' component={AdminPage} />
                   </div>
               </main>
               <Footer />
