@@ -3,7 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import { addArticle } from '../actions/articleActions.js';
-import { addPage } from '../actions/pageActions.js';
+import { addCategory } from '../actions/categoryActions.js';
 
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,9 +19,13 @@ const AdminPage = () => {
    const auth = useSelector((state) => state.auth);
    const errorId = useSelector((state) => state.errors.id);
 
-   let [pageTitle, setPageTitle] = useState('');
-   const handlePageTitleChange = event => {
-       setPageTitle(event.target.value);
+   let [categoryTitle, setCategoryTitle] = useState('');
+   const handleCategoryTitleChange = event => {
+       setCategoryTitle(event.target.value);
+   };
+   let [categoryRoute, setCategoryRoute] = useState('');
+   const handleCategoryRouteChange = event => {
+       setCategoryRoute(event.target.value);
    };
 
   useEffect(() => {
@@ -47,25 +51,27 @@ const AdminPage = () => {
    
   }
 
-  const submitNewPage = (e) => {
+  const submitNewCategory = (e) => {
     e.preventDefault();
 
-    const page = {
-      text: pageTitle,
+    const category = {
+      text: categoryTitle,
+      route: categoryRoute,
       creator: auth.user.id,
     }
-    if(!isEmpty(page.text)){
-      dispatch(addPage(page))
+    if(!isEmpty(category.text)){
+      dispatch(addCategory(category))
     }
   }
 
   return editorLoaded ? (
     <div>
       <div>
-        Create new Page 
+        Create new Category 
         <div>
-          <input onChange={handlePageTitleChange}/>
-          <button onClick={submitNewPage}>Add new Page</button>
+          <input placeholder="Category" onChange={handleCategoryTitleChange}/>
+          <input placeholder="Route" onChange={handleCategoryRouteChange}/>
+          <button onClick={submitNewCategory}>Add new Category</button>
         </div>
       </div>
           <CKEditor

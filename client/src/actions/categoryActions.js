@@ -1,10 +1,10 @@
 import { GET_ERRORS } from './types';
 import axios from 'axios';
 
-export const addPage = (pageData) => dispatch => {
+export const addCategory = (categoryData) => dispatch => {
     axios
-      .post('/pages/add', pageData)
-      .then(res => alert('Page was added successfully!'))
+      .post('/categories/add', categoryData)
+      .then(res => alert('category was added successfully!'))
       .catch(err =>
         dispatch({
           type: GET_ERRORS,
