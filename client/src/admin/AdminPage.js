@@ -3,7 +3,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import { addArticle } from '../actions/articleActions.js';
-import { addCategory } from '../actions/categoryActions.js';
+import { addCategory, fetchCategories } from '../actions/categoryActions.js';
 
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,13 +11,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import isEmpty from "../validation/is-empty";
 
 const AdminPage = () => {
-  const dispatch = useDispatch();
-    const editorRef = useRef();
+   const dispatch = useDispatch();
+   const editorRef = useRef();
    const [editorLoaded, setEditorLoaded] = useState(false);
    const [newArticle, setNewArticle] = useState("");
    const [newArticleId, setNewArticleId] = useState("");
+   const categories = useSelector((state) => state.categories);
    const auth = useSelector((state) => state.auth);
    const errorId = useSelector((state) => state.errors.id);
+   const [selectedParrentCategory, setNewselectedParrentCategory] = useState("");
 
    let [categoryTitle, setCategoryTitle] = useState('');
    const handleCategoryTitleChange = event => {
@@ -32,9 +34,11 @@ const AdminPage = () => {
     editorRef.current = {
       CKEditor: require('@ckeditor/ckeditor5-react'),
       ClassicEditor: require('@ckeditor/ckeditor5-build-classic')
-    }
-    setEditorLoaded(true)
-  }, [])
+    };
+    setEditorLoaded(true);
+
+    dispatch(fetchCategories());
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -58,16 +62,32 @@ const AdminPage = () => {
       text: categoryTitle,
       route: categoryRoute,
       creator: auth.user.id,
-    }
+      id: categories.length + 1,
+      selectedParrentCategory: selectedParrentCategory
+    };
     if(!isEmpty(category.text)){
       dispatch(addCategory(category))
     }
+  }
+
+  const handleSelect = (e) => {
+    setNewselectedParrentCategory(e.target.value)
   }
 
   return editorLoaded ? (
     <div>
       <div>
         Create new Category 
+        <div>
+          Choose parrent Category:
+          <select onChange={e => handleSelect(e)}>
+            {categories.map((category)=> {
+              return(
+              <option value={category.text} >{category.text}</option>
+              )
+            })}
+          </select>
+        </div>
         <div>
           <input placeholder="Category" onChange={handleCategoryTitleChange}/>
           <input placeholder="Route" onChange={handleCategoryRouteChange}/>

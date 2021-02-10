@@ -1,4 +1,4 @@
-import { GET_ERRORS } from './types';
+import { GET_ERRORS, FETCH_CATEGORIES } from './types';
 import axios from 'axios';
 
 export const addCategory = (categoryData) => dispatch => {
@@ -11,4 +11,13 @@ export const addCategory = (categoryData) => dispatch => {
           payload: err.response.data
         })
       )
+  }
+
+  export const fetchCategories = () => dispatch => {
+    axios.get('/categories')
+      .then(res => dispatch({
+        type: FETCH_CATEGORIES,
+        payload: res.data
+      }))
+      .catch(err => console.log(err))
   }

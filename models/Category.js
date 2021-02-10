@@ -7,6 +7,10 @@ const categorySchema = new Schema({
         type: String,
         required: true
     },
+    id: {
+        type: String,
+        required: true
+    },
     route: {
         type: String,
         required: true
