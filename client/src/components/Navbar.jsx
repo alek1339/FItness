@@ -21,34 +21,15 @@ const MyNavbar = () => {
               <Nav.Link className='nav-link' href='/'>{' '}Home</Nav.Link>    
               <Nav.Link className='nav-link' href='/register'>{' '}Register</Nav.Link>
               <Nav.Link className='nav-link' href='/login'>{' '}Login</Nav.Link>
-
-              <DropdownButton title="Dropdownxs">
-      <Dropdown.Item href="#books">Books</Dropdown.Item>
-      <Dropdown.Item href="#podcasts">Podcasts</Dropdown.Item>
-      <Dropdown.Item href="#">Tech I Like</Dropdown.Item>
-      <Dropdown.Item href="#">About me</Dropdown.Item>
-      <Dropdown.Item href="#addBlog">Add a Blog</Dropdown.Item>
-    </DropdownButton>
               
               {categories.map((cat)=> {
                 let res = 'parrent';
-                let link = ''
-                // categories.forEach((c) => {
-                //   if(c.subCat.includes(cat.id)){
-
-                //   }
-                // }) 
-                
+                let link = '';
                 categories.filter((c) => {
                   if(c && c.subCat && c.subCat.includes(cat.id)){
-                      console.log("it is sub cat", cat.id)
                       res = "sub"
-                      //  res = <Nav.Link className='text-danger' href='/login'>{' ' + cat.text}</Nav.Link>;
                       return
-                  } else {
-                    // res = <Nav.Link className='text-danger' href='/login'>{' ' + cat.text}</Nav.Link>;
-                    console.log("it is parrent cat", cat.id)
-                    
+                  } else {     
                     return
                   }
                 })
@@ -56,26 +37,32 @@ const MyNavbar = () => {
                   let hasSubCat = cat && cat.subCat && cat.subCat.length;
                   link = (
                     <div>
+                      {hasSubCat ? 
+                      <DropdownButton
+                       role="button"
+                       title={ cat.text}
+                         href={'#'}>
+                           {
+                             cat.subCat.map((subCat) =>{
+                              let subCatTxt = categories.find((cat)=> {
+                                if(cat.id === subCat){
+                                  return cat
+                                }
+                              });
+                              return <Dropdown.Item className='' href={cat.route}>{' ' + subCatTxt.text}</Dropdown.Item>
+                            })
+                           }
+                      </DropdownButton>
+                      : 
                       <Nav.Link 
                        role="button"
                         className={ hasSubCat ? 'nav-link dropdown-toggle' : ''}
-                         href={'#'}>{' ' + cat.text}
+                         href={cat.route}>{' ' + cat.text}
                       </Nav.Link>
-                      {cat && cat.subCat && cat.subCat.length > 0 ? 
-                      cat.subCat.map((subCat) =>{
-                        let subCatTxt = categories.find((cat)=> {
-                          if(cat.id === subCat){
-                            return cat
-                          }
-                        });
-                        return <Nav.Link className='text-danger' href='/login'>{' ' + subCatTxt.text}</Nav.Link>
-                      })
-                       : ''  
-                    }
+                      }
                     </div>
                   )
                 }
-
                 return link;
               })}
             </div>   
