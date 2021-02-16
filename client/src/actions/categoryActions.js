@@ -21,3 +21,12 @@ export const addCategory = (categoryData) => dispatch => {
       }))
       .catch(err => console.log(err))
   }
+
+  export const updateCategory = (categoryData) => dispatch => {
+    console.log('here')
+    axios
+        .post('/categories/update', categoryData)
+        .then(res => alert('category was updated successfully!'))
+        .catch(err => console.log(err))
+  };
+

@@ -3,8 +3,26 @@ const router = express.Router();
 
 const Category = require('../models/Category.js');
 
-// @route  POST category/test
-// @desc Tests categories route
+// @route  POST category/update
+// @descCategories route update articles
+// @access Public
+router.post('/update', (req, res) => {
+  Category.findOne({ id: req.body.id}).then(category => {
+    let articles = category && category.articles ? category.articles : [];
+    articles.push(req.body.articleId);
+
+    async function updateArticlesArr(req){
+      let updateCat = await Category.findOneAndUpdate({ id: req.body.id }, {articles: articles}, {
+        returnOriginal: false
+      });
+    }
+
+    updateArticlesArr(req)
+  })
+})
+
+// @route  POST category/add
+// @desc Categories route add new
 // @access Public
 router.post('/add', (req, res) => {
  
@@ -50,6 +68,16 @@ router.post('/add', (req, res) => {
 // @access Public
 router.get('/', (req, res) => {
   Category.find({}, function(err, categories) {
+    res.send(categories);  
+  });
+})
+
+// @route  GET /category/
+// @desc GET category route
+// @access Public
+router.get('/sorted', (req, res) => {
+  let route = req.body.route.substring(1)
+  Category.find({route: route}, function(err, categories) {
     res.send(categories);  
   });
 })

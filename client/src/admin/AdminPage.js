@@ -44,9 +44,10 @@ const AdminPage = () => {
     e.preventDefault();
 
     const article = {
-      htmlData: newArticle,
+        htmlData: newArticle,
         id: newArticleId,
         creator: auth.user.id,
+        categoryId: selectedParrentCategory === "" ? categories[0].id : categories.find(cat => cat.text ===selectedParrentCategory).id
       }
 
       if(!isEmpty(article.htmlData)){
@@ -57,7 +58,6 @@ const AdminPage = () => {
 
   const submitNewCategory = (e) => {
     e.preventDefault();
-
     const category = {
       text: categoryTitle,
       route: categoryRoute,
@@ -79,7 +79,7 @@ const AdminPage = () => {
       <div>
         Create new Category 
         <div>
-          Choose parrent Category:
+          Choose Category:
           <select onChange={e => handleSelect(e)}>
             {categories.map((category)=> {
               return(

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState  } from 'react'
 import { fetchCategories } from '../actions/categoryActions.js';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,8 @@ const MyNavbar = () => {
   useEffect(() => {
     dispatch(fetchCategories());
   }, []);
+
+  const [openedDropdown, setOpenedDropdown] = useState('');
     return (
       <Navbar bg="light" expand="lg">
         {/* <Nav.Link className='nav-link' href='/'>{' '} <img src={logo} alt='logo' style={logoStyle} /></Nav.Link>    */}
@@ -38,10 +40,12 @@ const MyNavbar = () => {
                   link = (
                     <div>
                       {hasSubCat ? 
-                      <DropdownButton
-                       role="button"
+                      <Nav.Link
                        title={ cat.text}
-                         href={'#'}>
+                       onMouseEnter={()=> setOpenedDropdown(cat.route)}
+                       onMouseLeave={()=> setOpenedDropdown("")}
+                         href={cat.route}
+                         >{cat.text}
                            {
                              cat.subCat.map((subCat) =>{
                               let subCatTxt = categories.find((cat)=> {
@@ -49,10 +53,10 @@ const MyNavbar = () => {
                                   return cat
                                 }
                               });
-                              return <Dropdown.Item className='' href={cat.route}>{' ' + subCatTxt.text}</Dropdown.Item>
+                              return <Nav.Link className={cat.route === openedDropdown ? 'visible' : 'notVisible'} href={subCatTxt.route}>{' ' + subCatTxt.text}</Nav.Link>
                             })
                            }
-                      </DropdownButton>
+                      </Nav.Link>
                       : 
                       <Nav.Link 
                        role="button"

@@ -16,6 +16,7 @@ import Footer from './components/Footer';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import AdminPage from './admin/AdminPage.js'
+import TemplatePage from './pages/templatePage.js'
 
 import { Provider } from 'react-redux';
 
@@ -57,6 +58,7 @@ class App extends Component  {
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/register' component={Register} />
                     <Route exact path='/admin' component={AdminPage} />
+                    <Route path='/' component={TemplatePage} /> 
                   </div>
               </main>
               <Footer />

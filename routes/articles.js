@@ -18,6 +18,16 @@ router.get('/test', (req, res) => {
   });
 })
 
+// @route  GET /articles/
+// @desc GET articles route
+// @access Public
+router.get('/', (req, res) => {
+  Article.find({}, function(err, articles) {
+    res.send(articles);  
+  });
+})
+
+
 // @route  POST api/articles/test
 // @desc Tests articles route
 // @access Public
