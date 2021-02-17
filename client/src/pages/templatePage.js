@@ -22,10 +22,22 @@ const TemplatePage = () => {
   }, [location]);
 
   return (
+    
     <div>
+       { 
+        categories.find(cat => cat.route === currentPath.substring(1))
+        &&  categories.find(cat => cat.route === currentPath.substring(1)).subCat.length > 0 ?
+        categories.find(cat => cat.route === currentPath.substring(1)).subCat.map(subCat => {
+           return categories.map(category => {
+           return category.id === subCat ?  <a href={category.route}>{category.text}</a> : ''
+          })
+        }) : 'no subcat'
+      }
+
       {articles ? articles.filter(el =>categories.find(cat => cat.route === currentPath.substring(1)) && categories.find(cat => cat.route === currentPath.substring(1)).articles.includes(el.id)).map(cat => {
         return parse(cat.htmlData)
       }) : ""}
+     
     </div>
   )
 }

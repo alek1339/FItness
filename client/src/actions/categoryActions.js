@@ -4,7 +4,10 @@ import axios from 'axios';
 export const addCategory = (categoryData) => dispatch => {
     axios
       .post('/categories/add', categoryData)
-      .then(res => alert('category was added successfully!'))
+      .then(res => {
+        alert('category was updated successfully!')
+        window.location.reload();
+      })
       .catch(err =>
         dispatch({
           type: GET_ERRORS,

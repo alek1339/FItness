@@ -10,9 +10,14 @@ export const addArticle = (articleData) => dispatch => {
           articleId:  res.data.id,
           id: articleData.categoryId
         };
+        alert('category was updated successfully!')
+        window.location.reload();
+        
         axios
         .post('/categories/update', categoryData)
-        .then(res => alert('category was updated successfully!'))
+        .then(res => {
+         
+        })
         .catch(err => console.log(err))
       })
       .catch(err =>
